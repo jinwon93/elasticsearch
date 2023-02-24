@@ -12,6 +12,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -64,7 +65,34 @@ public class MemberSearchQueryRepository {
     }
 
 
+    public  List<MemberDocument> findByStartWithNickname(String nickname , Pageable pageable) {
+        Criteria criteria = Criteria.where("nickname").startsWith(nickname);
+        Query query = new CriteriaQuery(criteria).setPageable(pageable);
+        SearchHits<MemberDocument> search = operations.search(query , MemberDocument.class);
+        return search.stream()
+                .map(SearchHit::getContent)
+                .collect(Collectors.toList());
+    }
 
+    public List<MemberDocument> findByMatchesDescription(String description , Pageable pageable) {
+        Criteria criteria = Criteria.where("description").startsWith(description);
+        Query query = new CriteriaQuery(criteria).setPageable(pageable);
+        SearchHits<MemberDocument> search = operations.search(query , MemberDocument.class);
+        return search.stream()
+                .map(SearchHit::getContent)
+                .collect(Collectors.toList());
+    }
+
+
+
+    public List<MemberDocument> findByContainsDescription(String description , Pageable pageable) {
+        Criteria criteria = Criteria.where("description").contains(description);
+        Query query = new CriteriaQuery(criteria).setPageable(pageable);
+        SearchHits<MemberDocument> search = operations.search(query , MemberDocument.class);
+        return search.stream()
+                .map(SearchHit::getContent)
+                .collect(Collectors.toList());
+    }
 
 }
 

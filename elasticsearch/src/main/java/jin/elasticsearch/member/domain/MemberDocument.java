@@ -34,7 +34,7 @@ public class MemberDocument {
 
     private String description;
 
-    @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis, DateFormat.epoch_millis)
+    @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis, DateFormat.epoch_millis})
     private LocalDateTime createdAt;
 
     public static MemberDocument from(Member member){
