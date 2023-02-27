@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.transaction.Status;
 import jdk.jshell.Snippet;
 import jin.elasticsearch.datatime.BaseEntity;
+import jin.elasticsearch.member.presentation.dto.MemberSaveRequest;
 import jin.elasticsearch.zone.Zone;
 import lombok.*;
 import org.apache.logging.log4j.util.Timer;
@@ -36,5 +37,17 @@ public class Member extends BaseEntity {
     private String description;
 
 
+
+    public static Member from(MemberSaveRequest memberSaveRequest) {
+
+        return Member.builder()
+                .name(memberSaveRequest.getName())
+                .nickname(memberSaveRequest.getNickname())
+                .age(memberSaveRequest.getAge())
+                .status(MemberStatus.WAIT)
+                .zone(Zone.builder().id(memberSaveRequest.getZoneId()).build())
+                .description(memberSaveRequest.getDescription())
+                .build();
+    }
 }
 
